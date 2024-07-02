@@ -1,7 +1,0 @@
-language: java
-jdk:
-  - openjdk17
-script: ./mvnw clean install
-cache:
-  directories:
-    - $HOME/.m2
