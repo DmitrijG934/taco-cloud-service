@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class Delivery {
 
+    private String fullName;
     private String street;
     private String city;
     private String state;
