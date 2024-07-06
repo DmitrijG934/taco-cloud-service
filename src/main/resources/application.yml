@@ -1,5 +1,10 @@
 spring:
   main.banner-mode: off
+  thymeleaf.cache: ${THYMELEAF_CACHING:false}
+
+logging:
+  level:
+    web: ${WEB_LOGGING_LEVEL:INFO}
 
 taco-cloud:
   validation-logging: ${VALIDATION_LOGGING:false}
