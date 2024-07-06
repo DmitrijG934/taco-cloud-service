@@ -1,2 +1,5 @@
 spring:
   main.banner-mode: off
+
+taco-cloud:
+  validation-logging: ${VALIDATION_LOGGING:false}

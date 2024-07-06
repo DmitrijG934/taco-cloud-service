@@ -20,34 +20,49 @@
     <a th:href="@{/design}" id="another_taco">Design another taco >></a><br/>
     <h3>Deliver my taco masterpieces to:</h3>
     <div class="form-container">
+        <div th:if="${#fields.hasErrors()}">
+            <span class="validation-error">Please correct the problems below and resubmit.</span>
+        </div>
+        <br>
         <div class="input-form">
             <label>
                 Name:
                 <input type="text" th:field="*{delivery.fullName}">
+                <span class="validation-error"
+                      th:if="${#fields.hasErrors('delivery.fullName')}"
+                      th:errors="*{delivery.fullName}">Full Name Error</span>
             </label>
         </div>
         <div class="input-form">
             <label>
                 Street address:
                 <input type="text" th:field="*{delivery.street}">
+                <span class="validation-error" th:if="${#fields.hasErrors('delivery.street')}"
+                      th:errors="*{delivery.street}">Street address error</span>
             </label>
         </div>
         <div class="input-form">
             <label>
                 City:
                 <input type="text" th:field="*{delivery.city}">
+                <span class="validation-error" th:if="${#fields.hasErrors('delivery.city')}"
+                      th:errors="*{delivery.city}">City error</span>
             </label>
         </div>
         <div class="input-form">
             <label>
                 State:
                 <input type="text" th:field="*{delivery.state}">
+                <span class="validation-error" th:if="${#fields.hasErrors('delivery.state')}"
+                      th:errors="*{delivery.state}">State error</span>
             </label>
         </div>
         <div class="input-form">
             <label>
                 Zip Code:
                 <input type="text" th:field="*{delivery.zip}">
+                <span class="validation-error" th:if="${#fields.hasErrors('delivery.zip')}"
+                      th:errors="*{delivery.zip}">Zip error</span>
             </label>
         </div>
         <h3>Here's how I'll pay:</h3>
@@ -55,18 +70,24 @@
             <label>
                 CC Number:
                 <input type="text" th:field="*{payment.ccNumber}">
+                <span class="validation-error" th:if="${#fields.hasErrors('payment.ccNumber')}"
+                      th:errors="*{payment.ccNumber}">CC number error</span>
             </label>
         </div>
         <div class="input-form">
             <label>
                 CC Expiration:
                 <input type="text" th:field="*{payment.ccExpiration}">
+                <span class="validation-error" th:if="${#fields.hasErrors('payment.ccExpiration')}"
+                      th:errors="*{payment.ccExpiration}">CC expiration error</span>
             </label>
         </div>
         <div class="input-form">
             <label>
                 CC CVV:
                 <input type="text" th:field="*{payment.ccCVV}">
+                <span class="validation-error" th:if="${#fields.hasErrors('payment.ccCVV')}"
+                      th:errors="*{payment.ccCVV}">CVV error</span>
             </label>
         </div>
     </div>

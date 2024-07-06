@@ -1,13 +1,16 @@
 package nn.dgordeev.taco.controller;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import nn.dgordeev.taco.model.Ingredient;
 import nn.dgordeev.taco.model.Taco;
 import nn.dgordeev.taco.model.TacoOrder;
 import nn.dgordeev.taco.repository.IngredientRepository;
+import nn.dgordeev.taco.service.ValidationErrorsLogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,15 +19,24 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/design")
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
+    private final ValidationErrorsLogService errorsLogService;
+
+    public DesignTacoController(
+            IngredientRepository ingredientRepository,
+            @Autowired(required = false) ValidationErrorsLogService errorsLogService
+    ) {
+        this.ingredientRepository = ingredientRepository;
+        this.errorsLogService = errorsLogService;
+    }
 
     @ModelAttribute(name = "tacoOrder")
     public TacoOrder order() {
@@ -42,7 +54,17 @@ public class DesignTacoController {
     }
 
     @PostMapping
-    public String processTaco(Taco taco, @ModelAttribute TacoOrder tacoOrder) {
+    public String processTaco(
+            @Valid Taco taco,
+            Errors errors,
+            @ModelAttribute TacoOrder tacoOrder
+    ) {
+        if (errors.hasErrors()) {
+            if (Objects.nonNull(errorsLogService)) {
+                this.errorsLogService.logValidationErrors(errors);
+            }
+            return "design";
+        }
         tacoOrder.addTaco(taco);
         log.info("Process Taco request {}", taco);
         return "redirect:/orders/current";
