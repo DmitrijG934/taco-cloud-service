@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Controller
@@ -75,12 +75,12 @@ public class DesignTacoController {
         Arrays.asList(Ingredient.Type.values()).forEach(type ->
                 model.addAttribute(
                         type.name().toLowerCase(),
-                        filterByType(ingredientRepository.getIngredients(), type)
+                        filterByType(ingredientRepository.findAll(), type)
                 ));
     }
 
-    private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type) {
-        return ingredients.stream()
+    private Iterable<Ingredient> filterByType(Iterable<Ingredient> ingredients, Ingredient.Type type) {
+        return StreamSupport.stream(ingredients.spliterator(), false)
                 .filter(ingredient -> ingredient.type().equals(type))
                 .toList();
     }

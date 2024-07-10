@@ -3,6 +3,7 @@ package nn.dgordeev.taco.controller;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import nn.dgordeev.taco.model.TacoOrder;
+import nn.dgordeev.taco.repository.OrderRepository;
 import nn.dgordeev.taco.service.ValidationErrorsLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +23,14 @@ import java.util.Objects;
 public class OrderController {
 
     private final ValidationErrorsLogService errorsLogService;
+    private final OrderRepository orderRepository;
 
-    public OrderController(@Autowired(required = false) ValidationErrorsLogService errorsLogService) {
+    public OrderController(
+            @Autowired(required = false) ValidationErrorsLogService errorsLogService,
+            OrderRepository orderRepository
+    ) {
         this.errorsLogService = errorsLogService;
+        this.orderRepository = orderRepository;
     }
 
     @GetMapping("/current")
@@ -44,7 +50,8 @@ public class OrderController {
             }
             return "order";
         }
-        log.info("Order submitted: {}", tacoOrder);
+        var savedOrder = orderRepository.save(tacoOrder);
+        log.info("Order submitted & saved: {}", savedOrder);
         status.setComplete();
         return "redirect:/";
     }
