@@ -1,6 +1,13 @@
 spring:
   main.banner-mode: off
   thymeleaf.cache: ${THYMELEAF_CACHING:false}
+  sql:
+    init.mode: always
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:taco_cloud}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
 
 logging:
   level:

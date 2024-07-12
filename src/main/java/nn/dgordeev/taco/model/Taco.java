@@ -5,10 +5,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
 public class Taco {
+
+    private Long id;
+    private Date createdAt = new Date();
 
     @NotBlank(message = "Taco name is required")
     @Size(min = 5, message = "Name should contain at least 5 characters")
