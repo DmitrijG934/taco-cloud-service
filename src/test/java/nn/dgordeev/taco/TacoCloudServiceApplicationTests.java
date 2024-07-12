@@ -13,5 +13,4 @@ class TacoCloudServiceApplicationTests {
 	void contextLoads() {
 
 	}
-
 }
